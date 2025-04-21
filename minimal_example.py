@@ -11,25 +11,25 @@ SLEEP = 1.5
 # set the URLs of each website, we use the demo sites as an example
 os.environ[
     "SHOPPING"
-] = "http://ec2-3-131-244-37.us-east-2.compute.amazonaws.com:7770"
+] = "http://127.0.0.1:7770"
 os.environ[
     "SHOPPING_ADMIN"
-] = "http://ec2-3-131-244-37.us-east-2.compute.amazonaws.com:7780/admin"
+] = "http://127.0.0.1:7780/admin"
 os.environ[
     "REDDIT"
-] = "http://ec2-3-131-244-37.us-east-2.compute.amazonaws.com:9999"
+] = "http://127.0.0.1:9999"
 os.environ[
     "GITLAB"
-] = "http://ec2-3-131-244-37.us-east-2.compute.amazonaws.com:8023"
+] = "http://127.0.0.1:8023"
 os.environ[
     "MAP"
-] = "http://ec2-3-131-244-37.us-east-2.compute.amazonaws.com:3000"
+] = "http://127.0.0.1:3000"
 os.environ[
     "WIKIPEDIA"
-] = "http://ec2-3-131-244-37.us-east-2.compute.amazonaws.com:8888/wikipedia_en_all_maxi_2022-05/A/User:The_other_Kiwix_guy/Landing"
+] = "http://127.0.0.1:8888/wikipedia_en_all_maxi_2022-05/A/User:The_other_Kiwix_guy/Landing"
 os.environ[
     "HOMEPAGE"
-] = "PASS"  # The home page is not currently hosted in the demo site
+] = "http://127.0.0.1:4399"  # The home page is not currently hosted in the demo site
 print("Done setting up URLs")
 
 # First, run `python scripts/generate_test_data.py` to generate the config files
