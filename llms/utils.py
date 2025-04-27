@@ -23,7 +23,7 @@ def call_llm(
             f"User: {prompt[-1]['content']}\nAssistant: "
         )
         
-    if lm_config.provider == "openai":
+    elif lm_config.provider == "openai":
         if lm_config.mode == "chat":
             assert isinstance(prompt, list)
             response = generate_from_openai_chat_completion(
