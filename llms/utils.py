@@ -16,6 +16,13 @@ def call_llm(
     prompt: APIInput,
 ) -> str:
     response: str
+    if lm_config.provider == "human":
+        # Take input from the user
+        assert isinstance(prompt, list)
+        response = input(
+            f"User: {prompt[-1]['content']}\nAssistant: "
+        )
+        
     if lm_config.provider == "openai":
         if lm_config.mode == "chat":
             assert isinstance(prompt, list)

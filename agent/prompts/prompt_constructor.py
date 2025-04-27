@@ -41,7 +41,30 @@ class PromptConstructor(object):
 
         """Return the require format for an API"""
         message: list[dict[str, str]] | str
-        if "openai" in self.lm_config.provider:
+        if "human" in self.lm_config.provider:
+            message = [{"role": "system", "content": intro}]
+            for (x, y) in examples:
+                message.append(
+                    {
+                        "role": "system",
+                        "name": "example_user",
+                        "content": x,
+                    }
+                )
+                message.append(
+                    {
+                        "role": "system",
+                        "name": "example_assistant",
+                        "content": y,
+                    }
+                )
+            message.append({"role": "user", "content": current})
+            return message
+
+        elif "anthropic" in self.lm_config.provider:
+            # TODO: add support for anthropic models
+            return None
+        elif "openai" in self.lm_config.provider:
             if self.lm_config.mode == "chat":
                 message = [{"role": "system", "content": intro}]
                 for (x, y) in examples:
