@@ -336,6 +336,23 @@ def test(
             )
 
             scores.append(score)
+            
+            # Save trajectory and score
+            result_output_path = Path(args.result_dir) / "trajectories"
+            result_output_path.mkdir(parents=True, exist_ok=True)
+
+            with open(result_output_path / f"{task_id}.json", "w") as f:
+                json.dump(
+                    {
+                        "task_id": task_id,
+                        "score": score,
+                        "trajectory": trajectory,
+                    },
+                    f,
+                    indent=2,
+                    default=str  # handles non-serializable objects
+                )
+
 
             if score == 1:
                 logger.info(f"[Result] (PASS) {config_file}")
