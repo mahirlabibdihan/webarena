@@ -252,8 +252,9 @@ def generate_from_azure_openai_chat_completion(
     openai.api_key = os.getenv(
         "AZURE_OPENAI_API_KEY", "REPLACE_WITH_YOUR_KEY_VALUE_HERE")
 
-    response = openai.ChatCompletion.create(  # type: ignore
+    response = openai.ChatCompletion.create(
         model=model,
+        engine=model,
         messages=messages,
         temperature=temperature,
         max_tokens=max_tokens,
