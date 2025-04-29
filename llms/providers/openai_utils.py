@@ -246,29 +246,21 @@ def generate_from_azure_openai_chat_completion(
     context_length: int,
     stop_token: str | None = None,
 ) -> str:
-    deployment = os.getenv("DEPLOYMENT_NAME", "gpt-4o-mini")
-    endpoint = os.getenv(
-        "ENDPOINT_URL", "https://qcri-llm-rag-3.openai.azure.com/")
-    subscription_key = os.getenv(
+    openai.api_type = "azure"
+    openai.api_base = "https://qcri-llm-rag-3.openai.azure.com/"
+    openai.api_version = "2025-01-01-preview"
+    openai.api_key = os.getenv(
         "AZURE_OPENAI_API_KEY", "REPLACE_WITH_YOUR_KEY_VALUE_HERE")
 
-    model = openai.AzureOpenAI(
-        azure_endpoint=endpoint,
-        api_key=subscription_key,
-        api_version="2025-01-01-preview"
-    )
-
-    response = model.chat.completions.create(
-        model=deployment,  # model = "deployment_name"
+    response = openai.ChatCompletion.create(  # type: ignore
+        model=model,
         messages=messages,
-        max_tokens=max_tokens,
         temperature=temperature,
+        max_tokens=max_tokens,
         top_p=top_p,
-        frequency_penalty=0,
-        presence_penalty=0,
-        stop=stop_token
+        stop=[stop_token] if stop_token else None,
     )
-    answer = print(response.choices[0].message.content)
+    answer: str = response["choices"][0]["message"]["content"]
     return answer
 
 
