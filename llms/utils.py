@@ -4,6 +4,7 @@ from typing import Any
 from llms import (
     generate_from_huggingface_completion,
     generate_from_openai_chat_completion,
+    generate_from_azure_openai_chat_completion,
     generate_from_openai_completion,
     lm_config,
 )
@@ -22,7 +23,23 @@ def call_llm(
         response = input(
             f"User: {prompt[-1]['content']}\nAssistant: "
         )
-        
+    
+    elif lm_config.provider == "azure_openai":
+        if lm_config.mode == "chat":
+            assert isinstance(prompt, list)
+            response = generate_from_azure_openai_chat_completion(
+                messages=prompt,
+                model=lm_config.model,
+                temperature=lm_config.gen_config["temperature"],
+                top_p=lm_config.gen_config["top_p"],
+                context_length=lm_config.gen_config["context_length"],
+                max_tokens=lm_config.gen_config["max_tokens"],
+                stop_token=None,
+            )
+        else:
+            raise ValueError(
+                f"Azure OpenAI models do not support mode {lm_config.mode}"
+            )
     elif lm_config.provider == "openai":
         if lm_config.mode == "chat":
             assert isinstance(prompt, list)
