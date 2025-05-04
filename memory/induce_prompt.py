@@ -123,12 +123,24 @@ def main():
         #         open(os.path.join(res_dir, f, "summary_info.json"))
         #     )["cum_reward"]
         # ]
-        file_dirs = [
-            os.path.join(res_dir, "trajectories", f)
-            for res_dir in args.result_dir
-            for f in os.listdir(os.path.join(res_dir, "trajectories"))
-            if f.endswith(".json") and json.load(open(os.path.join(res_dir, "trajectories", f))).get("score") > 0
-        ]
+        # file_dirs = [
+        #     os.path.join(res_dir, "trajectories", f)
+        #     for res_dir in args.result_dir
+        #     for f in os.listdir(os.path.join(res_dir, "trajectories"))
+        #     if f.endswith(".json") and json.load(open(os.path.join(res_dir, "trajectories", f))).get("score") > 0
+        # ]
+        file_dirs = []
+        for res_dir in args.result_dir:
+            traj_dir = os.path.join(res_dir, "trajectories")
+            for f in os.listdir(traj_dir):
+                if f.endswith(".json"):
+                    fpath = os.path.join(traj_dir, f)
+                    try:
+                        data = json.load(open(fpath))
+                        if data.get("score", 0) > 0:
+                            file_dirs.append(fpath)
+                    except Exception as e:
+                        print(f"Skipping {fpath}: {e}")
         print(file_dirs)
     elif args.criteria == "autoeval":
         file_dirs = []
